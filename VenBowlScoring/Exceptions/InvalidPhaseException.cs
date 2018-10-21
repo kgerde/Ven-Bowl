@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace VenBowlScoring.Exception
+namespace VenBowlScoring.Exceptions
 {
     [Serializable]
     internal class InvalidPhaseException : Exception

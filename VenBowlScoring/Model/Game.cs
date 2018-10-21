@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using VenBowlScoring.Interface;
+using VenBowlScoring.Exceptions;
 
 namespace VenBowlScoring.Model
 {
@@ -11,6 +12,7 @@ namespace VenBowlScoring.Model
     class Game : IGame
     {
         public List<Player> JoinedPlayers;
+        public string Name = "Default Game";
 
         /// <summary>
         /// The following two fields could be encapsolated within a GameTurn object.
@@ -18,16 +20,21 @@ namespace VenBowlScoring.Model
         public ITurn CurrentTurn;
         //        public IPlayer CurrentPlayer;
         //        public IScorableFrame CurrentFrameSet;
+
+            /// <TODO>
+            /// I believe the game does not care about frames per game. that may be something that only the score card cares about... the game most likely only cares about the number of turns per game.
+            /// </TODO>
         private int FramesPerGame = 10;
         public DateTime GameTime;
         public float Duration;
         public GamePhase CurrentPhase;
+        public Scorecard Scorecard = new Scorecard();
 
 
-    /// <summary>
-    /// Game sets up a Default Game.
-    /// </summary>
-    void Game()
+        /// <summary>
+        /// Game sets up a Default Game.
+        /// </summary>
+        public Game()
         {
             JoinedPlayers = new List<Player> { };
         }
@@ -43,10 +50,6 @@ namespace VenBowlScoring.Model
 
         public void Start()
         {
-            if (null != JoinedPlayers && JoinedPlayers.Count > 0)
-            {
-                CurrentFrameSet = JoinedPlayers[0].CurrentGameFrames[0];
-            }
         }
 
         public void Play(IBowlAttempt nextAttempt)
@@ -61,7 +64,23 @@ namespace VenBowlScoring.Model
 
         public void StartGame()
         {
-            throw new NotImplementedException();
+            //ensure the game has players
+            if (null != JoinedPlayers && JoinedPlayers.Count > 0)
+            {
+                //change the game phase to start the game.
+                CurrentPhase.ChangePhase();
+                //create the score card with all frames set to defaults
+                this.CreateScoreCard();
+            }
+            else
+            {
+                throw new NoPlayersJoinedGameException("No players have joined the game. A game must have at least 1 player to start.");
+            }
+        }
+
+        private void CreateScoreCard()
+        {
+
         }
 
         public void RemovePlayers(IEnumerable<Player> players)

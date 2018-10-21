@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VenBowlMechanics", "VenBowl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KGerdeDevOpsKit", "KGerdeDevOpsKit\KGerdeDevOpsKit.csproj", "{0187303D-9613-431E-B4EF-B914F4B2371C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XUnitTestVenBowlScoring", "XUnitTestVenBowlScoring\XUnitTestVenBowlScoring.csproj", "{906A83AC-53AC-41DD-8F78-14E2AF0CE8C4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{0187303D-9613-431E-B4EF-B914F4B2371C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0187303D-9613-431E-B4EF-B914F4B2371C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0187303D-9613-431E-B4EF-B914F4B2371C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{906A83AC-53AC-41DD-8F78-14E2AF0CE8C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{906A83AC-53AC-41DD-8F78-14E2AF0CE8C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{906A83AC-53AC-41DD-8F78-14E2AF0CE8C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{906A83AC-53AC-41DD-8F78-14E2AF0CE8C4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
