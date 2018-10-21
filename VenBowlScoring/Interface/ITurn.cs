@@ -4,7 +4,9 @@ using System.Text;
 
 namespace VenBowlScoring.Interface
 {
-    interface IScorecard
+    interface ITurn
     {
+        void Play();
+        void Score();
     }
 }

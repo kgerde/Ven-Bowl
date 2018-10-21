@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-using VenBowlScoring.Exception;
+using VenBowlScoring.Exceptions;
+using System;
 
 namespace VenBowlScoring.Model
 {
@@ -9,9 +10,9 @@ namespace VenBowlScoring.Model
     public class GamePhase
     {
 
-        #region parameters
+        #region properties
         /// <summary>
-        /// parameter to hold the current game phase.
+        /// property to hold the current game phase.
         /// </summary>
         public string CurrentPhase { get; private set; }
 
@@ -45,7 +46,7 @@ namespace VenBowlScoring.Model
         /// <exception cref="InvalidPhaseException">This function will throw an invalid phase exception if
         ///     No phase is passed in and the game is Completed or
         ///     A valid phase is not passed in.</exception>
-        void ChangePhase(string phases = null)
+        public void ChangePhase(string phases = null)
         {
             if (null != phases || Phases.Contains(phases))
             {
@@ -62,7 +63,7 @@ namespace VenBowlScoring.Model
                         //the next phase is the index of the current phase + 1.
                         CurrentPhase = Phases[Phases.IndexOf(CurrentPhase) + 1];
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         throw new InvalidPhaseException("This game is Completed. The Phase cannot be updated further.");
                     }
