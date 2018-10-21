@@ -1,2 +1,53 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ClassDiagram /> 
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Interface Name="VenBowlScoring.Interface.IScorableFrame">
+    <Position X="4.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>Interface\IScorableFrame.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="VenBowlScoring.Interface.ICommonFrame">
+    <Position X="3" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interface\ICommonFrame.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="VenBowlScoring.Interface.IFinalFrame">
+    <Position X="5.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interface\IFinalFrame.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="VenBowlScoring.Interface.IPlayer">
+    <Position X="9.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interface\IPlayer.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="VenBowlScoring.Interface.IGame">
+    <Position X="11.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABACAAAAEAgAAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>Interface\IGame.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="VenBowlScoring.Interface.IPin">
+    <Position X="7.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interface\IPin.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="VenBowlScoring.Interface.IBowlAttempt">
+    <Position X="7.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interface\IBowlAttempt.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
