@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippet Format="1.0.0"
+   xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <Header>
+    <Title>Enregions a block of code</Title>
+    <Author>GJV</Author>
+    <Shortcut>enr</Shortcut>
+    <Description>Surrounds a block of code with region directives</Description>
+    <SnippetTypes>
+      <SnippetType>SurroundsWith</SnippetType>
+      <SnippetType>Expansion</SnippetType>
+    </SnippetTypes>
+  </Header>
+  <Snippet>
+    <Declarations>
+      <Literal Editable="True">
+        <ID>RegionName</ID>
+        <ToolTip>Region Name</ToolTip>
+        <Default>MyRegion</Default>
+      </Literal>
+    </Declarations>
+    <Code Language="CSharp">
+      <![CDATA[
+    #region $RegionName$
+    $end$         
+    $selected$    
+    #endregion // end of $RegionName$ 
+    ]]>
+    </Code>
+  </Snippet>
+</CodeSnippet>

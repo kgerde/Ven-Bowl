@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using VenBowlScoring.Exception;
 
 namespace VenBowlScoring.Model
 {
@@ -7,6 +8,8 @@ namespace VenBowlScoring.Model
     /// </summary>
     public class GamePhase
     {
+
+        #region parameters
         /// <summary>
         /// parameter to hold the current game phase.
         /// </summary>
@@ -17,17 +20,21 @@ namespace VenBowlScoring.Model
         ///     setup includes waiting for players and preparing the game before play can start, 
         ///     play includes all play activities, 
         ///     review includes celebration and score reprots, 
-        ///     clean up includes anything that has to be done after a game to leave a game.
+        ///     clean up includes anything that has to be done after a game to leave a game,
+        ///     completed is the final phase.
         ///     <TODO>
         ///         Once I have configurations working I would move this to a configuration file. but for now this will be fine.
         ///     </TODO>
         /// </summary>
-        public static List<string> Phases = new List<string> {"Setup","Play","Review","Clean up"};
+        public static List<string> Phases = new List<string> {"Setup","Play","Review","Clean up","Completed"};
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Initialize the Game Phases and set the initial phase as the current phase.
         /// </summary>
-        GamePhase ()
+        GamePhase()
         {
             CurrentPhase = Phases[0];
         }
@@ -35,9 +42,38 @@ namespace VenBowlScoring.Model
         /// <summary>
         /// change the phase to the next phase.
         /// </summary>
-        void ChangePhase()
+        /// <exception cref="InvalidPhaseException">This function will throw an invalid phase exception if
+        ///     No phase is passed in and the game is Completed or
+        ///     A valid phase is not passed in.</exception>
+        void ChangePhase(string phases = null)
         {
-            CurrentPhase = Phases[Phases.IndexOf(CurrentPhase) + 1];
+            if (null != phases || Phases.Contains(phases))
+            {
+                //Set the phase as the one passed in.
+                CurrentPhase = Phases[Phases.IndexOf(phases)];
+            }
+            else
+            {
+                if (null == phases)
+                {
+
+                    try
+                    {
+                        //the next phase is the index of the current phase + 1.
+                        CurrentPhase = Phases[Phases.IndexOf(CurrentPhase) + 1];
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new InvalidPhaseException("This game is Completed. The Phase cannot be updated further.");
+                    }
+                }
+                else
+                {
+                    throw new InvalidPhaseException("The game phase requested does not exist. The Phase cannot be updated.");
+                }
+            }
         }
+        #endregion
+
     }
 }
