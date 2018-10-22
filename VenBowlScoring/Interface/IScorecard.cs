@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using VenBowlScoring.Model;
+﻿using VenBowlScoring.Model;
 
 namespace VenBowlScoring.Interface
 {

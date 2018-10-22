@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using VenBowlScoring.Exceptions;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using VenBowlScoring.Constants;
+using VenBowlScoring.Exceptions;
 
 namespace VenBowlScoring.Model
 {
@@ -28,7 +28,7 @@ namespace VenBowlScoring.Model
         ///         Once I have configurations working I would move this to a configuration file. but for now this will be fine.
         ///     </TODO>
         /// </summary>
-        public static List<string> Phases = new List<string> {Constant.FIRST_GAME_PHASE,Constant.PLAY_GAME_PHASE, Constant.REVIEW_GAME_PHASE 
+        public static List<string> Phases = new List<string> {Constant.FIRST_GAME_PHASE,Constant.PLAY_GAME_PHASE, Constant.REVIEW_GAME_PHASE
             ,Constant.CLEAN_UP_GAME_PHASE,Constant.FINAL_GAME_PHASE};
         #endregion
 

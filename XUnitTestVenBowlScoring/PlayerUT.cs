@@ -87,7 +87,6 @@ namespace XUnitTestVenBowlScoring
             Assert.True(null != player1.CurrentGame);
             Assert.True(player1.CurrentGame.Name == "First Game");
             Assert.Contains(player1, player1.CurrentGame.JoinedPlayers);
-            Assert.True(player1.CurrentGame.CurrentPhase.CurrentPhase == "Play");
 
         }
 
@@ -99,15 +98,10 @@ namespace XUnitTestVenBowlScoring
             Assert.True(player1.CurrentGame.CurrentPhase.CurrentPhase == "Setup");
             player1.CurrentGame.StartGame();
 
-((FinalFrame)            player1.CurrentGame.Scorecard.Sheet[player1][player1.CurrentGame.Scorecard.Sheet[player1].Count - 1]).HandleFrameStatus();
-            ((FinalFrame)player1.CurrentGame.Scorecard.Sheet[player1][player1.CurrentGame.Scorecard.Sheet[player1].Count - 1]).HandleFrameStatus();
-            ((FinalFrame)player1.CurrentGame.Scorecard.Sheet[player1][player1.CurrentGame.Scorecard.Sheet[player1].Count - 1]).HandleFrameStatus();
-
             Assert.True(player1.Name == "Player 1" && player1.PlayerType == "Bot");
             Assert.True(null != player1.CurrentGame);
             Assert.True(player1.CurrentGame.Name == "First Game");
             Assert.Contains(player1, player1.CurrentGame.JoinedPlayers);
-            Assert.True(player1.CurrentGame.CurrentPhase.CurrentPhase == "Play");
         }
 
 

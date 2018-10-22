@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using VenBowlScoring.Interface;
+﻿using System.Collections.Generic;
 using VenBowlScoring.Constants;
-using System.Threading;
+using VenBowlScoring.Interface;
 
 namespace VenBowlScoring.Model
 {
@@ -58,6 +55,13 @@ namespace VenBowlScoring.Model
             return new List<string> { new Game().Name };// ( (x) => x.currentPhase ==gameFilter ) };
         }
 
+        /// <summary>
+        /// Allow this player to create a game.
+        /// <TODO>
+        /// This should be implemented through the AddPlayers method.
+        /// </TODO>
+        /// </summary>
+        /// <param name="gameName"></param>
         public void HostGame(string gameName)
         {
             CurrentGame = new Game();
@@ -65,6 +69,13 @@ namespace VenBowlScoring.Model
             CurrentGame.JoinedPlayers.Add(this);
         }
 
+        /// <summary>
+        /// Allow this player to join another players game.
+        /// <TODO>
+        /// Not Implemented properly yet... This should go through the Game.JoinGame() method.
+        /// </TODO>
+        /// </summary>
+        /// <param name="game"></param>
         public void JoinGame(Game game)
         {
             game.JoinedPlayers.Add(this);
@@ -83,10 +94,15 @@ namespace VenBowlScoring.Model
             return CurrentGame.Scorecard.Print(this);
         }
 
+        /// <summary>
+        /// Simulate a basic Bot.
+        /// </summary>
+        /// <param name="score">int default to 10. The number of pins nocked down by a ball.</param>
+        /// <returns>the score as an int.</returns>
         public int TakeTurn(int score = 10)
         {
             //take 2 seconds and then get a perfect score for now.
-//            Thread.Sleep(2000);
+            //            Thread.Sleep(2000);
             return score;
         }
         #endregion

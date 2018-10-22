@@ -6,10 +6,36 @@ namespace VenBowlScoring.Model
 {
     public class Scorecard : IScorecard
     {
+        #region properties
+
+        /// <summary>
+        /// List of all players
+        /// </summary>
         public List<Player> JoinedPlayers;
+
+        /// <summary>
+        /// Sheet of frames per player.
+        /// </summary>
         public Dictionary<Player, List<CommonFrame>> Sheet;
+
+        /// <summary>
+        /// Player keyed current frames
+        /// <TODO>
+        /// This is not the best pattern to handle this the cursors for what Frame each player is currently on it should be replaced.
+        /// </TODO>
+        /// </summary>
         public Dictionary<Player, CommonFrame> CurrentFrames;
 
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="players">List of all Players on the score card.</param>
+        /// <param name="frameCount">number of frames to include on the score card.</param>
+        /// <param name="specialFrames">number of final frames on the score card.</param>
         public Scorecard(List<Player> players, int frameCount, int specialFrames)
         {
             Sheet = new Dictionary<Player, List<CommonFrame>>();
@@ -47,7 +73,8 @@ namespace VenBowlScoring.Model
                 {
                     int nextIndex = bindCount + 1;
                     int nextNextIndex = bindCount + 2;
-                    if (nextIndex < frameCount) {
+                    if (nextIndex < frameCount)
+                    {
                         originalRowPerPlayer[bindCount].NextTwoFrames.Add(originalRowPerPlayer[nextIndex]);
                     }
                     if (nextNextIndex < frameCount)
@@ -55,31 +82,42 @@ namespace VenBowlScoring.Model
                         originalRowPerPlayer[bindCount].NextTwoFrames.Add(originalRowPerPlayer[nextNextIndex]);
                     }
                     int previousIndex = bindCount - 1;
-                    if (0 <= previousIndex) {
+                    if (0 <= previousIndex)
+                    {
                         originalRowPerPlayer[bindCount].PreviousFrame = originalRowPerPlayer[previousIndex];
                     }
                 }
 
 
             }
-            //            CurrentFrame = Sheet.GetValueOrDefault(Sheet.Keys[0])[0];
         }
 
+        /// <summary>
+        /// Prints the scores for a player.
+        /// </summary>
+        /// <param name="player">IPlayer used to filter the data by one player per print.</param>
+        /// <returns>string of scores in a Frame based string format.</returns>
         public string Print(IPlayer player)
         {
             StringBuilder sbScores = new StringBuilder();
             List<CommonFrame> row = Sheet[(Player)player];
+            sbScores.AppendFormat("{0}", ((Player)player).Name);
+            sbScores.AppendLine();
+
             for (int frameNumber = 1; frameNumber <= row.Count; frameNumber++)
             {
                 sbScores.AppendFormat("Frame {0}: ", frameNumber);
-                for (int ballCounter = 1; ballCounter <= CommonFrame.BallCount;ballCounter++)
+                sbScores.AppendLine();
+                for (int ballCounter = 1; ballCounter <= CommonFrame.BallCount; ballCounter++)
                 {
                     string ballScore = "";
 
-                    if (ballCounter == 1) {
+                    if (ballCounter == 1)
+                    {
                         ballScore = row[frameNumber - 1].FirstBallScore();
                     }
-                    else if(ballCounter == 2) {
+                    else if (ballCounter == 2)
+                    {
                         ballScore = row[frameNumber - 1].SecondBallScore();
                     }
                     else if (ballCounter == 3)
@@ -90,6 +128,7 @@ namespace VenBowlScoring.Model
                     sbScores.AppendFormat("Ball {0}: {1} ", ballCounter, ballScore);
 
                 }
+                sbScores.AppendLine();
                 sbScores.AppendFormat(" Score: {0}", row[frameNumber - 1].FrameScore.ToString());
             }
 
@@ -97,10 +136,15 @@ namespace VenBowlScoring.Model
 
         }
 
+        /// <summary>
+        /// record a ball score for a player in the current frame
+        /// </summary>
+        /// <param name="player">Player player reporting the score</param>
+        /// <param name="score">integer ball score between -X and X where X is the number of pins in the game. negative numbers allow for faults to be reported.</param>
         public void MarkScore(Player player, int score)
         {
             //Is the current frame supposed to be updated or does it need to be moved to the next frame?
-            if(CurrentFrames[player].IsReadyForNextFrame)
+            if (CurrentFrames[player].IsReadyForNextFrame)
             {
                 if (CurrentFrames[player].NextTwoFrames.Count > 0 && null != CurrentFrames[player].NextTwoFrames[0])
                 {
@@ -111,5 +155,7 @@ namespace VenBowlScoring.Model
             //update the score on the current frame.
             Sheet[player][Sheet[player].IndexOf(CurrentFrames[player])].MarkScore(score);
         }
+        #endregion
+
     }
 }

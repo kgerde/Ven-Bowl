@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace VenBowlScoring.Constants
+﻿namespace VenBowlScoring.Constants
 {
-    static class Constant
+    /// <summary>
+    /// Class used to hold all non-secure Constants.
+    /// </summary>
+    public static class Constant
     {
         /// <summary>
         /// this constant defines the value used to mark a score as a fault. It needs to be outside of the range 0 to number of pins.
