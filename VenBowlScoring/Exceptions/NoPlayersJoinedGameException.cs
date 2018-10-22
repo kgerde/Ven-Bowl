@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace VenBowlScoring.Exceptions
 {
     [Serializable]
-    internal class NoPlayersJoinedGameException : Exception
+    public class NoPlayersJoinedGameException : Exception
     {
         public NoPlayersJoinedGameException()
         {

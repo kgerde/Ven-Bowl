@@ -3,11 +3,13 @@ using VenBowlScoring.Model;
 
 namespace VenBowlScoring.Interface
 {
-    interface IPlayer
+    public interface IPlayer
     {
         List<string> FindGames(string gameFilter = null);
-        void JoinGame();
-        void TakeTurn();
-        void ReviewHistory();
+        void HostGame(string gameName);
+        void JoinGame(Game game);
+        string ReviewHistory();
+        int TakeTurn(int score = 10);
+
     }
 }

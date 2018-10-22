@@ -3,10 +3,10 @@
   <Class Name="VenBowlScoring.Model.Game" BaseTypeListCollapsed="true">
     <Position X="8.75" Y="2.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAACACAAJACAAIAMwkAAgAAAAAgAAABAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAACAAJACAAIAMQkAAAAAAAAgAAIBAAAAAA=</HashCode>
       <FileName>Model\Game.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="VenBowlScoring.Model.GamePhase">
     <Position X="7" Y="4" Width="1.5" />
@@ -18,30 +18,36 @@
   <Class Name="VenBowlScoring.Model.Player">
     <Position X="12.5" Y="4.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAABAAAEAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AQAAAAAAABAAAEAAAAAAAAAAAAAAEAAAAAAAABAAAAA=</HashCode>
       <FileName>Model\Player.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="VenBowlScoring.Model.Turn">
-    <Position X="10.5" Y="4.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>gAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAgAAAgAAAAAA=</HashCode>
-      <FileName>Model\Turn.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="VenBowlScoring.Model.Scorecard">
     <Position X="12" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAIAEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAEAAAAAAIAAAAAAAAAAAAAABAAEAAg=</HashCode>
       <FileName>Model\Scorecard.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="VenBowlScoring.Model.BowlingNumber">
+    <Position X="4.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAgAAAAAEAAAAAAAAQABAIAAAgCQAAAAQ=</HashCode>
+      <FileName>Model\BowlingNumber.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VenBowlScoring.Model.Image">
+    <Position X="3" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>Model\Image.cs</FileName>
+    </TypeIdentifier>
   </Class>
   <Interface Name="VenBowlScoring.Interface.IScorableFrame">
     <Position X="1.75" Y="0.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAA=</HashCode>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAg=</HashCode>
       <FileName>Interface\IScorableFrame.cs</FileName>
     </TypeIdentifier>
   </Interface>
@@ -62,7 +68,7 @@
   <Interface Name="VenBowlScoring.Interface.IPlayer" Collapsed="true">
     <Position X="5.25" Y="2.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAABAAAAABAAAEAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAABAAAAABAAAEAAAAAAAAAAAAAAEAAAAAAAABAAAAA=</HashCode>
       <FileName>Interface\IPlayer.cs</FileName>
     </TypeIdentifier>
   </Interface>

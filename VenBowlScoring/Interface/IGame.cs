@@ -3,7 +3,7 @@ using VenBowlScoring.Model;
 
 namespace VenBowlScoring.Interface
 {
-    interface IGame
+    public interface IGame
     {
         void StartGame();
 
@@ -11,7 +11,7 @@ namespace VenBowlScoring.Interface
 
         void RemovePlayers(IEnumerable<Player> players);
 
-        void Play(IBowlAttempt nextAttempt);
+        void Play();
 
         void FinishGame();
 

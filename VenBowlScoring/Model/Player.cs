@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using VenBowlScoring.Interface;
 using VenBowlScoring.Constants;
+using System.Threading;
 
 namespace VenBowlScoring.Model
 {
@@ -26,6 +27,11 @@ namespace VenBowlScoring.Model
         /// </summary>
         public string PlayerType { get; set; }
 
+        /// <summary>
+        /// Provides the player with an understanding of what games they are playing.
+        /// </summary>
+        public Game CurrentGame { get; set; }
+
         #endregion
 
         #region methods
@@ -33,11 +39,10 @@ namespace VenBowlScoring.Model
         /// <summary>
         /// Initialize a default player, or let the values be passed in to create a custom player.
         /// </summary>
-        Player(string name = "Player 1", string playerType = "Bot")
+        public Player(string name = "Player 1", string playerType = "Bot")
         {
             Name = name;
             PlayerType = playerType;
-            SetupGameFrames();
         }
 
         /// <summary>
@@ -53,32 +58,36 @@ namespace VenBowlScoring.Model
             return new List<string> { new Game().Name };// ( (x) => x.currentPhase ==gameFilter ) };
         }
 
-        public void JoinGame()
+        public void HostGame(string gameName)
         {
+            CurrentGame = new Game();
+            CurrentGame.Name = gameName;
+            CurrentGame.JoinedPlayers.Add(this);
+        }
 
+        public void JoinGame(Game game)
+        {
+            game.JoinedPlayers.Add(this);
+            CurrentGame = game;
         }
 
 
-
-        private void SetupGameFrames()
+        /// <summary>
+        /// For now Review history will only print out the current game.
+        /// <TODO>
+        /// A later version can display previous games.
+        /// </TODO>
+        /// </summary>
+        public string ReviewHistory()
         {
-            ///<todo>the following section is most likely best in the games area. not sure player needs to know about the frames...</todo>
- /*           CurrentGameFrames = new List<IScorableFrame>;
-            for (int normalFrames = 0; normalFrames < V; normalFlames++)
-            {
-                CurrentGameFrames.Add(new CommonFrame());
-            }
-*/
+            return CurrentGame.Scorecard.Print(this);
         }
 
-        public void ReviewHistory()
+        public int TakeTurn(int score = 10)
         {
-            throw new NotImplementedException();
-        }
-
-        public void TakeTurn()
-        {
-            throw new NotImplementedException();
+            //take 2 seconds and then get a perfect score for now.
+            Thread.Sleep(2000);
+            return score;
         }
         #endregion
 

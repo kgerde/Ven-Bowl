@@ -3,7 +3,7 @@ using Xunit;
 
 namespace XUnitTestVenBowlScoring
 {
-    public class UnitTest1
+    public class GameUT
     {
         [Fact]
         public void Test1()
