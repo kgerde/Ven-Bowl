@@ -35,7 +35,7 @@ namespace VenBowlScoring.Model
         /// <summary>
         /// Initialize the Game Phases and set the initial phase as the current phase.
         /// </summary>
-        GamePhase()
+        public GamePhase()
         {
             CurrentPhase = Phases[0];
         }

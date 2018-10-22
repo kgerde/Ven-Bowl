@@ -3,32 +3,35 @@ using System.Collections.Generic;
 using System.Text;
 using VenBowlScoring.Interface;
 using VenBowlScoring.Exceptions;
+using VenBowlScoring.Constants;
+
 
 namespace VenBowlScoring.Model
 {
     /// <summary>
     /// This class is the main object for bowling a game. Players may join a game to play.
     /// </summary>
-    class Game : IGame
+    public class Game : IGame
     {
-        public List<Player> JoinedPlayers;
-        public string Name = "Default Game";
+        public List<Player> JoinedPlayers { get; set; }
+        public string Name { get; set; } = "Default Game";
 
         /// <summary>
         /// The following two fields could be encapsolated within a GameTurn object.
         /// </summary>
-        public ITurn CurrentTurn;
+//        public ITurn CurrentTurn { get; set; }
         //        public IPlayer CurrentPlayer;
         //        public IScorableFrame CurrentFrameSet;
 
-            /// <TODO>
-            /// I believe the game does not care about frames per game. that may be something that only the score card cares about... the game most likely only cares about the number of turns per game.
-            /// </TODO>
-        private int FramesPerGame = 10;
-        public DateTime GameTime;
-        public float Duration;
-        public GamePhase CurrentPhase;
-        public Scorecard Scorecard = new Scorecard();
+        /// <TODO>
+        /// I believe the game does not care about frames per game. that may be something that only the score card cares about... the game most likely only cares about the number of turns per game.
+        /// </TODO>
+        public int FramesPerGame { get; set; } = Constant.DEFAULT_FRAMES_PER_GAME;
+        public int SpecialFramesPerGame { get; set; } = Constant.DEFAULT_SPECIAL_FRAMES_PER_GAME;
+        public DateTime GameTime { get; private set; }
+        public TimeSpan Duration { get; private set; }
+        public GamePhase CurrentPhase { get; private set; }
+        public Scorecard Scorecard { get; private set; }
 
 
         /// <summary>
@@ -37,6 +40,7 @@ namespace VenBowlScoring.Model
         public Game()
         {
             JoinedPlayers = new List<Player> { };
+            CurrentPhase = new GamePhase();
         }
         public void AddPlayers(IEnumerable<Player> players)
         {
@@ -45,21 +49,68 @@ namespace VenBowlScoring.Model
 
         public void FinishGame()
         {
+            Duration = (DateTime.UtcNow).Subtract(this.GameTime);
             throw new NotImplementedException();
         }
 
-        public void Start()
+        /// <summary>
+        /// This method allows all joined bowlers to take their turns until the game is over and scores are ready to be calculated.
+        /// </summary>
+        public void Play()
         {
+            if (this.CurrentPhase.CurrentPhase == Constant.PLAY_GAME_PHASE)
+            {
+
+                //for now we will have each bowler take their turn and let the bowler control the score recieved in the TakeTurn method.
+                foreach (Player bowler in JoinedPlayers)
+                {
+                    ///<TODO>
+                    ///Redesign this section of the game to have a bowler complete a frame instead of just taking a turn.
+                    ///</TODO>
+                    int ballScore = bowler.TakeTurn();
+                    Scorecard.MarkScore(bowler, ballScore);
+                    
+                    //Did the player get a strike or all pin fault? If so the next player goes otherwise the bowler gets the second turn.
+                    CommonFrame checkForSecondBall = new CommonFrame();
+                    checkForSecondBall.MarkScore(ballScore);
+                    if (!checkForSecondBall.IsReadyForNextFrame)
+                    {
+                        Scorecard.MarkScore(bowler, bowler.TakeTurn());
+                    }
+                }
+
+                //Lets have the bowlers display their progress as part of the game as well, after the turn is taken.
+                foreach (Player bowler in JoinedPlayers)
+                {
+                    bowler.ReviewHistory();
+                }
+
+
+
+            }
+            else
+            {
+                throw new GameNotStartedException("The game has not yet been started. Please start the game before play can begin.");
+            }
         }
 
-        public void Play(IBowlAttempt nextAttempt)
+        public void RemovePlayers(IEnumerable<Player> players)
         {
-            throw new NotImplementedException();
-        }
-
-        public void RemovePlayers(IEnumerable<IPlayer> players)
-        {
-            throw new NotImplementedException();
+            if(null == JoinedPlayers)
+            {
+                throw new PlayerNotInGameException("The player could not be Removed from the Game. No players are joined.");
+            }
+            try
+            {
+                foreach (Player player in players)
+                {
+                    JoinedPlayers.Remove(player);
+                }
+            }
+            catch(Exception)
+            { 
+                throw new PlayerNotInGameException("The player could not be Removed from the Game. The player was not joined.");
+            }
         }
 
         public void StartGame()
@@ -67,10 +118,13 @@ namespace VenBowlScoring.Model
             //ensure the game has players
             if (null != JoinedPlayers && JoinedPlayers.Count > 0)
             {
+                this.GameTime = DateTime.UtcNow;
                 //change the game phase to start the game.
                 CurrentPhase.ChangePhase();
                 //create the score card with all frames set to defaults
                 this.CreateScoreCard();
+                //start play automaticly
+                this.Play();
             }
             else
             {
@@ -78,14 +132,12 @@ namespace VenBowlScoring.Model
             }
         }
 
+        /// <summary>
+        /// Creates a score card based on the players in the game and the frames configuration values.
+        /// </summary>
         private void CreateScoreCard()
         {
-
-        }
-
-        public void RemovePlayers(IEnumerable<Player> players)
-        {
-            throw new NotImplementedException();
+            this.Scorecard = new Scorecard(JoinedPlayers, this.FramesPerGame, this.SpecialFramesPerGame);
         }
     }
 }

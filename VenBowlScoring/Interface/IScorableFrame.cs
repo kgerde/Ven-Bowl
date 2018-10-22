@@ -1,8 +1,10 @@
-﻿namespace VenBowlScoring.Interface
+﻿using System;
+
+namespace VenBowlScoring.Interface
 {
-    interface IScorableFrame
+    public interface IScorableFrame : ICloneable
     {
-        void AddScore(int score, int scoreAttemptNum = 1);
+        void MarkScore(int score);
         int CalculateScore();
 
     }
