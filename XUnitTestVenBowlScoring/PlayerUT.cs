@@ -76,7 +76,7 @@ namespace XUnitTestVenBowlScoring
             player1.CurrentGame.StartGame();
             try
             {
-      //          player1.CurrentGame.Play();
+                player1.CurrentGame.Play();
             }
             catch (GameNotStartedException ex)
             {
@@ -87,9 +87,26 @@ namespace XUnitTestVenBowlScoring
             Assert.True(null != player1.CurrentGame);
             Assert.True(player1.CurrentGame.Name == "First Game");
             Assert.Contains(player1, player1.CurrentGame.JoinedPlayers);
-    //        Assert.True(player1.CurrentGame.CurrentPhase.CurrentPhase == "Play");
+            Assert.True(player1.CurrentGame.CurrentPhase.CurrentPhase == "Play");
 
         }
+
+        [Fact]
+        public void ConfirmPlayerCanScorePoints()
+        {
+            Player player1 = new Player();
+            player1.HostGame("First Game");
+            Assert.True(player1.CurrentGame.CurrentPhase.CurrentPhase == "Setup");
+            player1.CurrentGame.StartGame();
+
+
+            Assert.True(player1.Name == "Player 1" && player1.PlayerType == "Bot");
+            Assert.True(null != player1.CurrentGame);
+            Assert.True(player1.CurrentGame.Name == "First Game");
+            Assert.Contains(player1, player1.CurrentGame.JoinedPlayers);
+            Assert.True(player1.CurrentGame.CurrentPhase.CurrentPhase == "Play");
+        }
+
 
     }
 }

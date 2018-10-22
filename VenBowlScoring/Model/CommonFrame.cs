@@ -8,7 +8,7 @@ namespace VenBowlScoring.Model
 {
     public class CommonFrame : ICommonFrame
     {
-        public List<CommonFrame> NextTwoFrames;
+        public List<CommonFrame> NextTwoFrames = new List<CommonFrame>();
         public CommonFrame PreviousFrame;
 
 
@@ -81,6 +81,11 @@ namespace VenBowlScoring.Model
                 IsClosed = (BallScores[0].IsStrike());
                 IsReadyForNextFrame = (BallScores[0].IsStrike() || isStrikeOnFault);
                 IsReadyToScore = (IsPreviousFrameScored && isStrikeOnFault);
+            }
+
+            if (IsReadyToScore)
+            {
+                CalculateScore();
             }
         }
 
@@ -158,7 +163,7 @@ namespace VenBowlScoring.Model
 
         public string SecondBallScore()
         {
-            if (null != BallScores[1])
+            if (BallScores.Count >1 && null != BallScores[1])
             {
                 return (IsSpare(BallScores)) ? "/" : BallScores[1].Text;
             }
@@ -168,9 +173,24 @@ namespace VenBowlScoring.Model
             }
         }
 
+        /// <summary>
+        /// This will clone a CommonFrame. The frame will have the next frames, previous frame and BallScores set back to null in the clone.
+        /// </summary>
+        /// <returns>clone of the CommonFrame with next frames, previous frame and BallScores set back to null.</returns>
         public object Clone()
         {
-            throw new NotImplementedException();
+            //The cloning process is to create a copy of the frame and then to clear out the next frames, previous frame and ball scores so they can be created after cloning.
+            CommonFrame newCommonFrame = (CommonFrame) this.MemberwiseClone();
+            newCommonFrame.FrameScore = 0;
+            newCommonFrame.IsClosed = false;
+            newCommonFrame.IsReadyForNextFrame = false;
+            newCommonFrame.IsReadyToScore  = false;
+            newCommonFrame.IsPreviousFrameScored = false;
+            newCommonFrame.LostPinsByFault = 0;
+            newCommonFrame.NextTwoFrames = new List<CommonFrame>();
+            newCommonFrame.PreviousFrame = null;
+            newCommonFrame.BallScores = new List<BowlingNumber>();
+            return newCommonFrame;
         }
     }
 }

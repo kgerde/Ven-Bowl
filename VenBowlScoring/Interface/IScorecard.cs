@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using VenBowlScoring.Model;
 
 namespace VenBowlScoring.Interface
 {
     public interface IScorecard
     {
         string Print(IPlayer player);
-        void CreateScorecard(List<IPlayer> Players, int frameCount, int specialFrameCount);
-        void MarkScore(IPlayer player, int score);
+        void MarkScore(Player player, int score);
 
     }
 }
