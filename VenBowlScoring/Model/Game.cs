@@ -89,35 +89,44 @@ namespace VenBowlScoring.Model
                     }
                 }
 
-                ////run the final frame
-                //for (int frame = 0; frame < SpecialFramesPerGame; frame++)
-                //{
-                //    //for now we will have each bowler take their turn and let the bowler control the score recieved in the TakeTurn method.
-                //    foreach (Player bowler in JoinedPlayers)
-                //    {
-                //        for(int finalBalls = 0; finalBalls< FinalFrame.BallCount; finalBalls++)
-                //        ///<TODO>
-                //        ///Redesign this section of the game to have a bowler complete a frame instead of just taking a turn.
-                //        ///</TODO>
-                //        int ballScore = bowler.TakeTurn();
-                //        Scorecard.MarkScore(bowler, ballScore);
+                //run the final frames
+                for (int frame = 0; frame < SpecialFramesPerGame; frame++)
+                {
+                    //for now we will have each bowler take their turn and let the bowler control the score recieved in the TakeTurn method.
+                    foreach (Player bowler in JoinedPlayers)
+                    {
+                        int finalFrameLessThanPins = 0;
+                        for (int finalBalls = 0; finalBalls < FinalFrame.BallCount; finalBalls++)
+                        {
+                            ///<TODO>
+                            ///Redesign this section of the game to have a bowler complete a frame instead of just taking a turn.
+                            ///</TODO>
+                            int ballScore = bowler.TakeTurn();
+                            Scorecard.MarkScore(bowler, ballScore);
 
-                //        //Did the player get a strike or all pin fault? If so the next player goes otherwise the bowler gets the second turn.
-                //        CommonFrame checkForSecondBall = new CommonFrame();
-                //        checkForSecondBall.MarkScore(ballScore);
-                //        if (!checkForSecondBall.IsReadyForNextFrame)
-                //        {
-                //            Scorecard.MarkScore(bowler, bowler.TakeTurn());
-                //        }
-                //    }
+                            ///<TODO>
+                            ///This code needs to be cleaned up and put into a task. My design didn't quite work out for making this code clean.
+                            /// </TODO>
+                            if(ballScore < Constant.NUMBER_OF_PINS)
+                            {
+                                finalFrameLessThanPins+= ballScore;
+                                if(finalFrameLessThanPins< Constant.NUMBER_OF_PINS && finalBalls==1)
+                                {
+                                    break;
+                                }
+                            }
+                        }
 
-                //    //Lets have the bowlers display their progress as part of the game as well, after the turn is taken.
-                //    foreach (Player bowler in JoinedPlayers)
-                //    {
-                //        bowler.ReviewHistory();
-                //    }
+                        //Did the player get a strike or all pin fault? If so the next player goes otherwise the bowler gets the second turn.
+                    }
 
-                //}
+                    //Lets have the bowlers display their progress as part of the game as well, after the turn is taken.
+                    foreach (Player bowler in JoinedPlayers)
+                    {
+                        bowler.ReviewHistory();
+                    }
+
+                }
 
 
 

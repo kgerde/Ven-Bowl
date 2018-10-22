@@ -25,6 +25,16 @@ namespace VenBowlScoring.Constants
         public const int DEFAULT_SPECIAL_FRAMES_PER_GAME = 1;
 
         /// <summary>
+        /// The number of balls in a special frame.
+        /// </summary>
+        public const int DEFAULT_SPECIAL_FRAMES_BALLS = 3;
+
+        /// <summary>
+        /// The number of balls in a normal frame.
+        /// </summary>
+        public const int DEFAULT_FRAMES_BALLS = 2;
+
+        /// <summary>
         /// How many 2 ball frames are in the game. at the start of the game.
         /// </summary>
         public const int DEFAULT_FRAMES_PER_GAME = 10;
@@ -34,7 +44,26 @@ namespace VenBowlScoring.Constants
         /// </summary>
         public const string FIRST_GAME_PHASE = "Setup";
 
+        /// <summary>
+        /// The Play Phase used for bowling.
+        /// </summary>
         public const string PLAY_GAME_PHASE = "Play";
+
+        /// <summary>
+        /// The Play Phase used for bowling.
+        /// </summary>
+        public const string REVIEW_GAME_PHASE = "Review";
+
+        /// <summary>
+        /// The Play Phase used for bowling.
+        /// </summary>
+        public const string CLEAN_UP_GAME_PHASE = "Clean up";
+
+        /// <summary>
+        /// The Play Phase used for bowling.
+        /// </summary>
+        public const string FINAL_GAME_PHASE = "Completed";
+
 
     }
 }

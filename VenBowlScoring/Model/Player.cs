@@ -86,7 +86,7 @@ namespace VenBowlScoring.Model
         public int TakeTurn(int score = 10)
         {
             //take 2 seconds and then get a perfect score for now.
-            Thread.Sleep(2000);
+//            Thread.Sleep(2000);
             return score;
         }
         #endregion

@@ -8,19 +8,24 @@ namespace VenBowlScoring.Model
 {
     public class CommonFrame : ICommonFrame
     {
+        public static int BallCount { get; internal set; } = Constant.DEFAULT_FRAMES_BALLS;
+
+        public static bool StrikeContinueLogic = false;
+        public static bool SpareContinueLogic = false;
+
         public List<CommonFrame> NextTwoFrames = new List<CommonFrame>();
         public CommonFrame PreviousFrame;
 
 
-        public List<BowlingNumber> BallScores { get; private set; } = new List<BowlingNumber>();
-        public int FrameScore { get; private set; }
-        public bool IsClosed { get; private set; } = false;
-        public bool IsReadyForNextFrame { get; private set; } = false;
-        public bool IsReadyToScore { get; private set; } = false;
-        public bool IsPreviousFrameScored { get; private set; } = false;
+        public List<BowlingNumber> BallScores { get; protected set; } = new List<BowlingNumber>();
+        public int FrameScore { get; protected set; }
+        public bool IsClosed { get; protected set; } = false;
+        public bool IsReadyForNextFrame { get; protected set; } = false;
+        public bool IsReadyToScore { get; protected set; } = false;
+        public bool IsPreviousFrameScored { get; protected set; } = false;
 
-        public int LostPinsByFault { get; private set; }
-
+        public int LostPinsByFault { get; protected set; }
+        public bool IsScoringComplete { get; protected set; }
 
         public CommonFrame()
         {
@@ -55,9 +60,9 @@ namespace VenBowlScoring.Model
 
         public void HandleFrameStatus()
         {
-            if (!IsPreviousFrameScored)
+            if (!IsScoringComplete)
             {
-                if (null != PreviousFrame)
+                if (null != PreviousFrame && !PreviousFrame.IsScoringComplete)
                 {
                     //Update the previous frame
                     PreviousFrame.HandleFrameStatus();
@@ -66,27 +71,61 @@ namespace VenBowlScoring.Model
                 {
                     IsPreviousFrameScored = true;
                 }
-            }
-            //handle frame status on second ball
-            if (BallScores.Count == 2)
-            {
-                IsClosed = IsSpare(BallScores);
-                IsReadyForNextFrame = true;
-                IsReadyToScore = (IsPreviousFrameScored && !IsClosed);
-            }
-            //handle frame status on first ball
-            else if (BallScores.Count == 1)
-            {
-                bool isStrikeOnFault = (BallScores[0].IsFault() && LostPinsByFault == Constant.NUMBER_OF_PINS);
-                IsClosed = (BallScores[0].IsStrike());
-                IsReadyForNextFrame = (BallScores[0].IsStrike() || isStrikeOnFault);
-                IsReadyToScore = (IsPreviousFrameScored && isStrikeOnFault);
-            }
+                //handle frame status on second ball
+                if (BallScores.Count == 2)
+                {
+                    IsClosed = IsSpare(BallScores);
+                    IsReadyForNextFrame = true;
+                    IsReadyToScore = (IsPreviousFrameScored && !IsClosed);
+                }
+                //handle frame status on first ball
+                else if (BallScores.Count == 1)
+                {
+                    bool isStrikeOnFault = (BallScores[0].IsFault() && LostPinsByFault == Constant.NUMBER_OF_PINS);
+                    IsClosed = (BallScores[0].IsStrike());
+                    IsReadyForNextFrame = (BallScores[0].IsStrike() || isStrikeOnFault);
+                    IsReadyToScore = (IsPreviousFrameScored && isStrikeOnFault) || (IsPreviousFrameScored && IsClosed && NextTwoBallsBowled());
+//                    IsReadyToScore = IsPreviousFrameScored && BallScores[0].IsStrike() && NextTwoBallsBowled();
+                }
 
-            if (IsReadyToScore)
-            {
-                CalculateScore();
+                if (IsReadyToScore)
+                {
+                    CalculateScore();
+                    IsScoringComplete = true;
+                }
             }
+            else
+            {
+                IsPreviousFrameScored = true;
+            }
+        }
+
+        protected bool NextTwoBallsBowled()
+        {
+                //if there is only one more frame
+                if (this.NextTwoFrames.Count == 1)
+                {
+                    //Then the frame needs to have two balls bowled.
+                    if (null != this.NextTwoFrames[0].BallScores[0] && this.NextTwoFrames[0].BallScores.Count == 2 && null != this.NextTwoFrames[0].BallScores[1])
+                    {
+                        return true;
+                    }
+                }
+                //otherwise there should be two frames or more left.
+                else if (this.NextTwoFrames.Count == 2)
+                {
+                    //In thiscase the balls could be in the next frame or in the next two frames.
+                    if (this.NextTwoFrames[0].BallScores.Count == 2 && null != this.NextTwoFrames[0].BallScores[0] && null != this.NextTwoFrames[0].BallScores[1])
+                    {
+                        return true;
+                    }
+                    if (this.NextTwoFrames[0].BallScores.Count == 1 && this.NextTwoFrames[1].BallScores.Count == 1
+                        && null != this.NextTwoFrames[0].BallScores[0] && null != this.NextTwoFrames[1].BallScores[0])
+                    {
+                        return true;
+                    }
+                }
+            return false;
         }
 
         private void HandleFault(int score)
@@ -97,19 +136,22 @@ namespace VenBowlScoring.Model
             }
         }
 
-        private bool IsSpare(List<BowlingNumber> ballScores)
+        protected bool IsSpare(List<BowlingNumber> ballScores)
         {
             return (BallScores.Count == 2 && BowlingNumber.Sum(BallScores[0], BallScores[1]) == Constant.NUMBER_OF_PINS);
         }
 
         public int CalculateScore()
         {
-            int score = null != PreviousFrame ? PreviousFrame.FrameScore : 0;
+            int score = (null != PreviousFrame) ? PreviousFrame.FrameScore : 0;
             if (IsReadyToScore)
             {
-                if (BallScores.Count == 2)
+                //In this case the score is being calculated for a full frame of balls.
+                if (BallScores.Count == CommonFrame.BallCount)
                 {
                     score += BowlingNumber.Sum(BallScores[0], BallScores[1]);
+
+                    //If the ball made a spare then the next ball also needs to be added to the ball.
                     if (IsSpare(BallScores))
                     {
                         //find the next ball
@@ -123,6 +165,10 @@ namespace VenBowlScoring.Model
                 }
                 else
                 {
+                    //In this case the frame is finished in the first frame.
+                    ///<TODO>
+                    /// Not required for this release however It could be interesting to check how this would work in a higher number of ballCount.
+                    /// </TODO>
                     if (BallScores.Count == 1)
                     {
                         score += BallScores[0].Value;
@@ -134,7 +180,7 @@ namespace VenBowlScoring.Model
 
                             if ((null != NextTwoFrames && (null != NextTwoFrames[0].BallScores || null != NextTwoFrames[1].BallScores)))
                             {
-                                BowlingNumber nextNextBall = (NextTwoFrames[0].BallScores[1] == null) ? NextTwoFrames[1].BallScores[1] : NextTwoFrames[0].BallScores[1];
+                                BowlingNumber nextNextBall = (NextTwoFrames[0].BallScores.Count == 1) ? NextTwoFrames[1].BallScores[0] : NextTwoFrames[0].BallScores[1];
                                 score += nextNextBall.Value;
                             }
                         }
@@ -151,7 +197,7 @@ namespace VenBowlScoring.Model
 
         public string FirstBallScore()
         {
-            if (null != BallScores[0])
+            if (null != BallScores && BallScores.Count >0)
             {
                 return BallScores[0].Text;
             }
@@ -163,7 +209,7 @@ namespace VenBowlScoring.Model
 
         public string SecondBallScore()
         {
-            if (BallScores.Count >1 && null != BallScores[1])
+            if (BallScores.Count >1 && null != BallScores)
             {
                 return (IsSpare(BallScores)) ? "/" : BallScores[1].Text;
             }
