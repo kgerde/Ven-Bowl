@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2016
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VenBowlScoring", "VenBowlScoring\VenBowlScoring.csproj", "{0E7860D6-418E-48DE-B0B4-EAD7F08619A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VenBowlScoring", "VenBowlScoring\VenBowlScoring.csproj", "{0E7860D6-418E-48DE-B0B4-EAD7F08619A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VenBowlMechanics", "VenBowlMechanics\VenBowlMechanics.csproj", "{A42F6BE7-E156-4A52-B5A3-5B90AFE4697A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VenBowlMechanics", "VenBowlMechanics\VenBowlMechanics.csproj", "{A42F6BE7-E156-4A52-B5A3-5B90AFE4697A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KGerdeDevOpsKit", "KGerdeDevOpsKit\KGerdeDevOpsKit.csproj", "{0187303D-9613-431E-B4EF-B914F4B2371C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KGerdeDevOpsKit", "KGerdeDevOpsKit\KGerdeDevOpsKit.csproj", "{0187303D-9613-431E-B4EF-B914F4B2371C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XUnitTestVenBowlScoring", "XUnitTestVenBowlScoring\XUnitTestVenBowlScoring.csproj", "{906A83AC-53AC-41DD-8F78-14E2AF0CE8C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XUnitTestVenBowlScoring", "XUnitTestVenBowlScoring\XUnitTestVenBowlScoring.csproj", "{906A83AC-53AC-41DD-8F78-14E2AF0CE8C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ven-BowlCMD", "Ven-BowlCMD\Ven-BowlCMD.csproj", "{4C98EEE5-999E-4772-B3FF-01B9F60EA35E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{906A83AC-53AC-41DD-8F78-14E2AF0CE8C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{906A83AC-53AC-41DD-8F78-14E2AF0CE8C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{906A83AC-53AC-41DD-8F78-14E2AF0CE8C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C98EEE5-999E-4772-B3FF-01B9F60EA35E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C98EEE5-999E-4772-B3FF-01B9F60EA35E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C98EEE5-999E-4772-B3FF-01B9F60EA35E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C98EEE5-999E-4772-B3FF-01B9F60EA35E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

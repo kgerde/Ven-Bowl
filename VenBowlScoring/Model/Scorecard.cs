@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 using VenBowlScoring.Interface;
+using VenBowlScoring.Constants;
 
 namespace VenBowlScoring.Model
 {
@@ -101,35 +102,42 @@ namespace VenBowlScoring.Model
         {
             StringBuilder sbScores = new StringBuilder();
             List<CommonFrame> row = Sheet[(Player)player];
+            sbScores.AppendFormat("{0}", ((Player)player).CurrentGame.Name);
+            sbScores.AppendLine();
             sbScores.AppendFormat("{0}", ((Player)player).Name);
             sbScores.AppendLine();
 
             for (int frameNumber = 1; frameNumber <= row.Count; frameNumber++)
             {
+                sbScores.AppendLine();
+                sbScores.AppendLine();
                 sbScores.AppendFormat("Frame {0}: ", frameNumber);
                 sbScores.AppendLine();
-                for (int ballCounter = 1; ballCounter <= CommonFrame.BallCount; ballCounter++)
+                int ballsPerFrame = Constant.DEFAULT_FRAMES_BALLS;
+                if (frameNumber <= Constant.DEFAULT_FRAMES_PER_GAME - Constant.DEFAULT_SPECIAL_FRAMES_PER_GAME)
+                {
+                    ballsPerFrame = Constant.DEFAULT_FRAMES_BALLS;
+                }
+                else
+                {
+                    ballsPerFrame = Constant.DEFAULT_SPECIAL_FRAMES_BALLS;
+                }
+
+                bool isSpare = row[frameNumber - 1].IsSpare(row[frameNumber - 1].BallScores);
+
+                for (int ballCounter = 1; ballCounter <= ballsPerFrame; ballCounter++)
                 {
                     string ballScore = "";
-
-                    if (ballCounter == 1)
+                    ballScore = row[frameNumber - 1].BallScoreText(ballCounter);
+                    if (isSpare && ballCounter == ballsPerFrame)
                     {
-                        ballScore = row[frameNumber - 1].FirstBallScore();
+                        ballScore = "/";
                     }
-                    else if (ballCounter == 2)
-                    {
-                        ballScore = row[frameNumber - 1].SecondBallScore();
-                    }
-                    else if (ballCounter == 3)
-                    {
-                        ballScore = ((FinalFrame)row[frameNumber - 1]).ThirdBallScore();
-                    }
-
                     sbScores.AppendFormat("Ball {0}: {1} ", ballCounter, ballScore);
 
                 }
                 sbScores.AppendLine();
-                sbScores.AppendFormat(" Score: {0}", row[frameNumber - 1].FrameScore.ToString());
+                sbScores.AppendFormat("Score: {0}", row[frameNumber - 1].FrameScore.ToString());
             }
 
             return sbScores.ToString();

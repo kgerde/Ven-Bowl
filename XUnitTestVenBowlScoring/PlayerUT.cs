@@ -105,5 +105,15 @@ namespace XUnitTestVenBowlScoring
         }
 
 
+        [Fact]
+        public void ConfirmSampleTestCase()
+        {
+
+            Player player = new Player();
+            player.HostGame("Brad's Bowling!");
+            player.CurrentGame.StartGame(new List<int>() { 4,3,7,3,5,2,8,1,4,6,2,4,8,0,8,0,8,2,10,1,7 });
+            string b = player.ReviewHistory();
+            Assert.Contains("Score: 110", b);
+        }
     }
 }

@@ -39,7 +39,7 @@ namespace VenBowlScoring.Model
         /// Confirm the next two balls have been bowled. Used by the strike scoring calculations.
         /// </summary>
         /// <returns>True if the next two balls have been bowled, otherwise false.</returns>
-        protected new bool NextTwoBallsBowled()
+        protected override bool NextTwoBallsBowled()
         {
             //if there are any more frames
             if (NextTwoFrames.Count > 1)
@@ -54,9 +54,26 @@ namespace VenBowlScoring.Model
         }
 
         /// <summary>
+        /// record a ball score in the frame.
+        /// </summary>
+        /// <param name="score">score of the ball between -X and X. where X is the number of possible pins. negative numbers allow for faults to be recorded.</param>
+        public override void MarkScore(int score)
+        {
+            base.HandleFault(score);
+
+            BowlingNumber ballScore = new BowlingNumber();
+            ballScore.Value = score;
+            BallScores.Add(ballScore);
+
+            HandleFrameStatus();
+
+        }
+
+
+        /// <summary>
         /// The state engine controller. this method sets all of the boolean values to allow for description of the frame's game state.
         /// </summary>
-        public new void HandleFrameStatus()
+        public override void HandleFrameStatus()
         {
             if (!IsScoringComplete)
             {
@@ -109,13 +126,12 @@ namespace VenBowlScoring.Model
         /// </summary>
         /// <returns>integer Score of the frame</returns>
         /// <exception cref="FrameNotReadyToScoreException">FrameNotReadyToScoreException</exception>
-        public new int CalculateScore()
+        public override int CalculateScore()
         {
             int score = null != PreviousFrame ? PreviousFrame.FrameScore : 0;
             if (IsReadyToScore)
             {
-                for (int ball = 0; ball < FinalFrame.BallCount; ball++)
-                {
+                int ball = 0;
                     score += BallScores[ball].Value;
                     //If the ball made a spare then the next ball also needs to be added to the ball.
                     if (IsSpare(BallScores))
@@ -154,7 +170,6 @@ namespace VenBowlScoring.Model
                             score += nextNextBall.Value;
                         }
                     }
-                }
                 FrameScore = score;
                 return FrameScore;
             }

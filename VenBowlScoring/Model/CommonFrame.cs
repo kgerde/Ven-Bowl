@@ -137,7 +137,7 @@ namespace VenBowlScoring.Model
         /// record a ball score in the frame.
         /// </summary>
         /// <param name="score">score of the ball between -X and X. where X is the number of possible pins. negative numbers allow for faults to be recorded.</param>
-        public void MarkScore(int score)
+        public virtual void MarkScore(int score)
         {
             HandleFault(score);
 
@@ -152,7 +152,7 @@ namespace VenBowlScoring.Model
         /// <summary>
         /// The state engine controller. this method sets all of the boolean values to allow for description of the frame's game state.
         /// </summary>
-        public void HandleFrameStatus()
+        public virtual void HandleFrameStatus()
         {
             if (!IsScoringComplete)
             {
@@ -170,7 +170,7 @@ namespace VenBowlScoring.Model
                 {
                     IsClosed = IsSpare(BallScores);
                     IsReadyForNextFrame = true;
-                    IsReadyToScore = (IsPreviousFrameScored && !IsClosed);
+                    IsReadyToScore = (IsPreviousFrameScored && !IsClosed) || ((IsPreviousFrameScored && IsClosed && this.NextTwoFrames.Count > 0 && this.NextTwoFrames[0].BallScores.Count > 0)) || ((IsPreviousFrameScored && IsClosed && this.NextTwoFrames.Count == 0));
                 }
                 //handle frame status on first ball
                 else if (BallScores.Count == 1)
@@ -198,7 +198,7 @@ namespace VenBowlScoring.Model
         /// Confirm the next two balls have been bowled. Used by the strike scoring calculations.
         /// </summary>
         /// <returns>True if the next two balls have been bowled, otherwise false.</returns>
-        protected bool NextTwoBallsBowled()
+        protected virtual bool NextTwoBallsBowled()
         {
             //if there is only one more frame
             if (NextTwoFrames.Count == 1)
@@ -230,7 +230,7 @@ namespace VenBowlScoring.Model
         /// deal with the extra work required for a fault to be handled.
         /// </summary>
         /// <param name="score">Integer expected to be between -X and -1 where X is the number of pins being played.</param>
-        private void HandleFault(int score)
+        protected void HandleFault(int score)
         {
             if (score < 0)
             {
@@ -243,7 +243,7 @@ namespace VenBowlScoring.Model
         /// </summary>
         /// <param name="ballScores">The BowlingNumber list of scores for the frame.</param>
         /// <returns>True when the balls scores are a spare, otherwise false.</returns>
-        protected bool IsSpare(List<BowlingNumber> ballScores)
+        public bool IsSpare(List<BowlingNumber> ballScores)
         {
             return (BallScores.Count == 2 && BowlingNumber.Sum(BallScores[0], BallScores[1]) == Constant.NUMBER_OF_PINS);
         }
@@ -253,7 +253,7 @@ namespace VenBowlScoring.Model
         /// </summary>
         /// <returns>integer Score of the frame</returns>
         /// <exception cref="FrameNotReadyToScoreException">FrameNotReadyToScoreException</exception>
-        public int CalculateScore()
+        public virtual int CalculateScore()
         {
             int score = (null != PreviousFrame) ? PreviousFrame.FrameScore : 0;
             if (IsReadyToScore)
@@ -304,6 +304,23 @@ namespace VenBowlScoring.Model
             else
             {
                 throw new FrameNotReadyToScoreException("Frame is not ready to be scored. Please continue to bowl.");
+            }
+        }
+
+
+        /// <summary>
+        /// Method allowing the ball of the frame to be pretty printed.
+        /// </summary>
+        /// <returns>Pretty print view of the first ball score of a frame.</returns>
+        public string BallScoreText(int ballNumber)
+        {
+            if (null != BallScores && BallScores.Count > ballNumber - 1)
+            {
+                return BallScores[ballNumber - 1].Text;
+            }
+            else
+            {
+                return "";
             }
         }
 
